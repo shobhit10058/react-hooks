@@ -34,9 +34,10 @@ function Board() {
   // - status (`Winner: ${winner}`, `Scratch: Cat's game`, or `Next player: ${nextValue}`)
   // 💰 I've written the calculations for you! So you can use my utilities
   // below to create these variables
-  const [nextValue, setNextValue] = React.useState(null);
-  const [winner, setWinner] = React.useState(null);
-  const [status, setStatus] = React.useState(null);
+  // no need to make separate state for derived states
+  const nextValue = calculateNextValue(squares);
+  const winner = calculateWinner(squares);
+  const status = calculateStatus(winner, squares, nextValue);
 
   // This is the function your square click handler will call. `square` should
   // be an index. So if they click the center square, this will be `4`.
@@ -61,12 +62,6 @@ function Board() {
     setHistory((history) => [...history.slice(0, currentStep + 1), newSquares]);
     setCurrentStep((currentStep) => currentStep + 1);
   }
-
-  React.useEffect(() => {
-    setNextValue(calculateNextValue(squares));
-    setWinner(calculateWinner(squares));
-    setStatus(calculateStatus(winner, squares, nextValue));
-  }, [squares, winner, nextValue]);
 
   function restart() {
     // 🐨 reset the squares
